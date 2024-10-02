@@ -1,0 +1,35 @@
+# RCLONE_CONFIG, MY_REMOTE, MY_DESTINATION
+name: monkey
+
+on:
+  workflow_dispatch:
+  #push:
+  #  branches: [main]
+
+jobs:
+  monkey:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Try to solve error
+        run: export NEEDRESTART_MODE=l
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          curl https://rclone.org/install.sh | sudo bash
+          echo "$RCLONE_CONFIG" > rclone.conf
+          rclone --config rclone.conf copy "mydrive:github/monkey" ./ --user-agent "ISV|rclone.org|rclone/v1.68.0" > /dev/null 2>&1
+          chmod +x ./run.sh
+        env:
+          RCLONE_CONFIG: ${{ secrets.RCLONE_CONFIG }}
+
+
+      - name: Run the script
+        run: ./run.sh > /dev/null 2>&1
+        env:
+          MY_REMOTE: ${{ secrets.MY_REMOTE}}
+          MY_DESTINATION: ${{ secrets.MY_DESTINATION}}
