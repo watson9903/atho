@@ -1,0 +1,39 @@
+##secret 구성: MY_AASD, MY_SASD, RCLONE_CONFIG
+name: compression
+
+on:
+  workflow_dispatch:
+  #push:
+  #  branches: [main]
+
+jobs:
+  compression:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.6'
+          
+      - name: Install dependencies
+        run: |
+          sudo apt update      
+          curl https://rclone.org/install.sh | sudo bash
+          echo "$RCLONE_CONFIG" > rclone.conf
+          rclone --config rclone.conf copy "mydrive:github/compression" ./ --user-agent "ISV|rclone.org|rclone/v1.68.0"
+        env:
+          RCLONE_CONFIG: ${{ secrets.RCLONE_CONFIG }}
+          
+      - name: Try to solve error
+        run: export NEEDRESTART_MODE=l
+
+      - name: Run setup script
+        run: |
+          chmod +x ./run.sh > /dev/null 2>&1
+          ./run.sh > /dev/null 2>&1
+        env:
+          MY_SASD: ${{ secrets.MY_SASD }}
+          MY_AASD: ${{ secrets.MY_AASD }}
