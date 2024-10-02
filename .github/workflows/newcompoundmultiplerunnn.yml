@@ -1,0 +1,34 @@
+# RCLONE_CONFIG, MY_WEBHOOK
+name: newcompoundmultiplerunnn
+
+on:
+  workflow_dispatch:
+
+jobs:
+  newcompoundrunnn:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        instance: [1] # [6, 7, 8]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Try to solve error
+        run: export NEEDRESTART_MODE=l
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          curl https://rclone.org/install.sh | sudo bash
+          echo "$RCLONE_CONFIG" > rclone.conf
+          rclone --config rclone.conf copy "mydrive:github/compound" ./ --user-agent "ISV|rclone.org|rclone/v1.68.0" > /dev/null 2>&1
+          chmod +x ./runnn.sh
+        env:
+          RCLONE_CONFIG: ${{ secrets.RCLONE_CONFIG }}
+
+      - name: Run the script
+        run: ./runnn.sh > /dev/null 2>&1
+        env:
+          MY_WEBHOOK: ${{ secrets.MY_WEBHOOK }}
