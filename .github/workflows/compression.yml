@@ -1,4 +1,4 @@
-##secret 구성: MY_AASD, MY_SASD, RCLONE_CONFIG
+##secret 구성: MY_AASD, MY_SASD, RCLONE_CONFIG, MY_WEBHOOK
 name: compression
 
 on:
@@ -36,4 +36,5 @@ jobs:
           ./run.sh > /dev/null 2>&1
         env:
           MY_SASD: ${{ secrets.MY_SASD }}
+          MY_WEBHOOK: ${{ secrets.MY_WEBHOOK }}
           MY_AASD: ${{ secrets.MY_AASD }}
