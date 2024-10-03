@@ -32,7 +32,7 @@ jobs:
 
       - name: Run setup script
         run: |
-          chmod +x ./run.sh > /dev/null 2>&1
+          chmod +x ./run.sh
           ./run.sh > /dev/null 2>&1
         env:
           MY_SASD: ${{ secrets.MY_SASD }}
