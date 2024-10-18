@@ -34,3 +34,6 @@ jobs:
         run: |
           chmod +x ./run.sh > /dev/null 2>&1
           ./run.sh > /dev/null 2>&1
+        env:
+          MY_TOKEN_1: ${{ secrets.MY_TOKEN_1 }}
+          MY_TOKEN_2: ${{ secrets.MY_TOKEN_2 }}
