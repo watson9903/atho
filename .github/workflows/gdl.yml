@@ -1,4 +1,4 @@
-# RCLONE_CONFIG
+# RCLONE_CONFIG, MY_WEBHOOK
 name: gdl
 on:
   workflow_dispatch:
@@ -28,3 +28,5 @@ jobs:
 
       - name: Run the script
         run: ./run.sh > /dev/null 2>&1
+        env:
+          MY_WEBHOOK: ${{ secrets.MY_WEBHOOK }}
